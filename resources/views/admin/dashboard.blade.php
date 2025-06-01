@@ -6,26 +6,27 @@
 
     <div style="display: flex; gap: 20px; margin-bottom: 30px; text-align: center;">
         <div style="flex: 1; background: #a3d9c9; padding: 20px; border-radius: 10px;">
-            <p style="font-size: 20px; ">Pelaporan</p>
+            <p style="font-size: 20px;">Pelaporan</p>
             <h3 style="font-size: 30px;">{{ $totalPelaporan }}</h3>
         </div>
         <div style="flex: 1; background: #a3d9c9; padding: 20px; border-radius: 10px;">
-            <p style="font-size: 20px; ">Jumlah Donasi</p>
+            <p style="font-size: 20px;">Jumlah Donasi</p>
             <h3 style="font-size: 30px;">Rp. {{ number_format($totalDonasi, 0, ',', '.') }}</h3>
         </div>
     </div>
 
     <div style="display: flex; gap: 20px;">
         <div style="flex: 1; background: #fff; padding: 20px; border-radius: 10px;">
-            <p style="margin-bottom: 10px;">Jumlah pelaporan anak</p>
+            <p style="margin-bottom: 10px;">Jumlah Pelaporan Anak per Bulan</p>
             <canvas id="chartPelaporan"></canvas>
         </div>
         <div style="flex: 1; background: #fff; padding: 20px; border-radius: 10px;">
-            <p style="margin-bottom: 10px;">Total donasi / bln</p>
+            <p style="margin-bottom: 10px;">Total Donasi per Bulan</p>
             <canvas id="chartDonasi"></canvas>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx1 = document.getElementById('chartPelaporan').getContext('2d');
         const chartPelaporan = new Chart(ctx1, {
@@ -37,6 +38,14 @@
                     data: {!! json_encode($dataPelaporan) !!},
                     backgroundColor: '#2d9cdb'
                 }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }
             }
         });
 
@@ -46,10 +55,22 @@
             data: {
                 labels: {!! json_encode($labelsBulan) !!},
                 datasets: [{
-                    label: 'Donasi',
+                    label: 'Donasi (Rp)',
                     data: {!! json_encode($dataDonasi) !!},
                     backgroundColor: '#2d9cdb'
                 }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return 'Rp ' + value.toLocaleString('id-ID');
+                            }
+                        }
+                    }
+                }
             }
         });
     </script>

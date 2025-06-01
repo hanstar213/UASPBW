@@ -12,7 +12,7 @@ $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 // Ganti sesuai email admin kamu
-$emailAdmin = 'admin@rumohaneuk.com';
+$emailAdmin = 'admin@gmail.com';
 
 // Ganti sesuai password baru yang kamu mau
 $passwordBaru = 'Admin123';
